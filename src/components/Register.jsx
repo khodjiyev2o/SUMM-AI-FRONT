@@ -17,7 +17,7 @@ function Register() {
         setFormError("Please fill in both email and password fields.");
       } else {
         setFormError("");
-    fetch('http://localhost:8000/api/signUp', {
+    fetch('http://13.114.193.241/api/signUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
