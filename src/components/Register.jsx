@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -43,8 +44,9 @@ function Register() {
   ];
 
   return (
-    <div className="d-flex justify-content-center align-items-center  vh-100">
-      <Form onSubmit={handleSubmit}>
+    <div className="d-flex justify-content-center align-items-center  vh-100 ">
+    <div className='m-5 p-5' style={{width: '23%',}}>
+      <Form onSubmit={handleSubmit} >
       
     {Registered === 'success' && <p className="text-success text-center">You are registered successfully!</p>}
     {Registered === 'already_exists' && <p className="text-warning text-center">User with this email already exists!</p>}
@@ -64,10 +66,14 @@ function Register() {
             />
           </Form.Group>
         ))}
-        <Button variant="primary" type="submit" className='m-2'>
+        <Button variant="primary mx-auto d-block" type="submit" className='m-2'>
           Submit
         </Button>
+        <Link className='text-primary text-center text-decoration-none d-block' to={'/login'}>
+          Already have an account , click here!
+        </Link>
       </Form>
+      </div>
     </div>
   );
 }
