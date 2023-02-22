@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { RingLoader } from 'react-spinners';
 const cookies = new Cookies();
 
 const TransListing = () => {
     const token = cookies.get("TOKEN");
     const [empdata, empdatachange] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const LoadDetail = (id) => {
@@ -28,6 +30,7 @@ const TransListing = () => {
             }).catch((err) => {
                 console.log(err.message)
             })
+            
         }
     }
 
@@ -35,6 +38,7 @@ const TransListing = () => {
 
 
     useEffect(() => {
+        setLoading(true);
         fetch("https://staging.backend.mintapp.cl/translation-objects", {
             method: 'GET',
             headers: {
@@ -47,10 +51,11 @@ const TransListing = () => {
             empdatachange(resp);
         }).catch((err) => {
             console.log(err.message);
-        })
+        }).finally(() => setLoading(false));
     }, [])
     return (
         <div className="container">
+
             <div className="card">
                 <div className="card-title text-center mt-5">
                     <h2>Translation Objects Listing</h2>
@@ -70,7 +75,11 @@ const TransListing = () => {
                             </tr>
                         </thead>
                         <tbody>
-
+                        {loading && (
+                        <div className="loader" style={{position: 'relative',position: 'absolute',top: '150%',left: '50%',transform: 'translate(-50%, -50%)',}}>
+                            <RingLoader color={'#123abc'} loading={loading} />
+                        </div>
+                        ) }
                             {empdata &&
                                 empdata.map(item => (
                                     <tr key={item.id}>
@@ -85,9 +94,8 @@ const TransListing = () => {
                                     </tr>
                                 ))
                             }
-
+                            
                         </tbody>
-
                     </table>
                 </div>
             </div>

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { RingLoader } from 'react-spinners';
 const cookies = new Cookies();
 
 const ObjDetail = () => {
     const { objid } = useParams();
     const [objData, objDataChange] = useState({});
+    const [loading, setLoading] = useState(true);
     const token = cookies.get("TOKEN");
     useEffect(() => {
         fetch("https://staging.backend.mintapp.cl/translation-objects/" + objid, {
@@ -16,6 +18,7 @@ const ObjDetail = () => {
               },}).then((res) => {
             return res.json();
         }).then((resp) => {
+            setLoading(false);
             objDataChange(resp);
         }).catch((err) => {
             console.log(err.message);
@@ -23,8 +26,13 @@ const ObjDetail = () => {
     }, []);
     return (
         <div>
+        
             <div className="container">
-                
+            {loading && (
+                        <div className="loader" style={{position: 'relative',position: 'absolute',top: '50%',left: '50%',transform: 'translate(-50%, -50%)',}}>
+                            <RingLoader color={'#123abc'} loading={loading} />
+                        </div>
+                        ) }
             <div className="card row" style={{ "textAlign": "left" }}>
                 <div className="card-title">
                     <h2>Translation Object Detail</h2>

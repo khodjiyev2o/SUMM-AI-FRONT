@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { RingLoader } from 'react-spinners';
 const cookies = new Cookies();
 const ObjEdit = () => {
     const { objid } = useParams();
     const token = cookies.get("TOKEN");
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
+        setLoading(true);
         fetch("https://staging.backend.mintapp.cl/translation-objects/" + objid,{
             method:"GET",
             headers: {
@@ -15,7 +17,8 @@ const ObjEdit = () => {
               },
           }).then((res) => {
             return res.json();
-        }).then((resp) => {
+        }).then((resp) => { 
+            setLoading(false);
             idchange(resp.id);
             InputTextchange(resp.InputText);
             OutputTextchange(resp.OutputText);
@@ -35,7 +38,6 @@ const ObjEdit = () => {
       e.preventDefault();
       const empdata={InputText,OutputText};
       
-
       fetch("https://staging.backend.mintapp.cl/translation-objects/" +`${objid}/`,{
         method:"PATCH",
         headers: {
@@ -52,7 +54,11 @@ const ObjEdit = () => {
     }
     return ( 
         <div>
-
+{loading && (
+                        <div className="loader" style={{position: 'relative',position: 'absolute',top: '50%',left: '50%',transform: 'translate(-50%, -50%)',}}>
+                            <RingLoader color={'#123abc'} loading={loading} />
+                        </div>
+                        ) }
         <div className="row">
             <div className="offset-lg-3 col-lg-6">
                 <form className="container" onSubmit={handlesubmit}>
@@ -101,7 +107,6 @@ const ObjEdit = () => {
                     </div>
 
                 </form>
-
             </div>
         </div>
     </div>

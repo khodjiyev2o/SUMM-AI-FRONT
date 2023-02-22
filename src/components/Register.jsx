@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
 function Register() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [Registered, setRegistered] = useState('')
