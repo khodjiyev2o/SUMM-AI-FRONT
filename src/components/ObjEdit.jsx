@@ -54,7 +54,7 @@ const ObjEdit = () => {
     }
     return ( 
         <div>
-{loading && (
+            {loading && (
                         <div className="loader" style={{position: 'relative',position: 'absolute',top: '50%',left: '50%',transform: 'translate(-50%, -50%)',}}>
                             <RingLoader color={'#123abc'} loading={loading} />
                         </div>
